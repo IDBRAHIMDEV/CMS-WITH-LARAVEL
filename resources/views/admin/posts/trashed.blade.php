@@ -10,7 +10,7 @@
               <th>Title</th>
               <th>Category</th>
               <th class="text-right">Edit</th>
-              <th class="text-right">Delete</th>
+              <th class="text-right">Restore</th>
           </tr>
       </thead>
       <tbody>
@@ -26,11 +26,11 @@
               </td>
               <td class="text-right">
 
-                <form action="{{ route('post.destroy', ['id' => $post->id]) }}" method="post">
+                <form action="{{ route('post.restore', ['id' => $post->id]) }}" method="post">
                   @csrf 
-                  @method('delete')
-                  <button class="btn btn-danger btn-sm">
-                     <i class="fa fa-trash"></i> Delete
+               
+                  <button class="btn btn-success btn-sm">
+                     <i class="fa fa-trash"></i> Restore
                   </button>
                 </form> 
               </td>

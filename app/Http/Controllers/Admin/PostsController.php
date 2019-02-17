@@ -1,7 +1,7 @@
 <?php
 
-namespace App\Http\Controllers;
-
+namespace App\Http\Controllers\Admin;
+use App\Http\Controllers\Controller;
 use Session;
 use App\Post, App\Category;
 use Illuminate\Http\Request;
@@ -76,8 +76,12 @@ class PostsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit(Post $post)
-    {
-        return 'edit post';
+    {   
+        $categories = Category::all();
+        return view('admin.posts.edit', [
+                    'categories' => $categories, 
+                    'post' => $post
+                  ]);
     }
 
     /**
@@ -89,7 +93,13 @@ class PostsController extends Controller
      */
     public function update(Request $request, Post $post)
     {
-        //
+        $post->title = $request->title;
+        $post->content = $request->content;
+        $post->category_id = $request->category_id;
+        $post->save();
+        
+        Session::flash('success', 'Post Updated successfully');
+        return redirect()->route('post.index');
     }
 
     /**
@@ -100,6 +110,22 @@ class PostsController extends Controller
      */
     public function destroy(Post $post)
     {
-        //
+        $post->delete();
+
+        Session::flash('info', 'Post deleted');
+        return redirect()->route('post.trashed');
+    }
+
+    public function trashed() {
+        $posts = Post::onlyTrashed()->get();
+        return view('admin.posts.trashed', ['posts' => $posts]);
+    }
+
+    public function restore($id) {
+       $post = Post::withTrashed()->where('id', $id)->first();
+       $post->restore();
+
+       Session::flash('info', 'Post restored');
+       return redirect()->route('post.index');
     }
 }

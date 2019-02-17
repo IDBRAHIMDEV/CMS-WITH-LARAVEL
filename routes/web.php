@@ -10,7 +10,7 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::prefix('admin')->group(function () {
+Route::prefix('admin')->namespace('Admin')->group(function () {
     
     //List of routes for category module
     Route::get('/category', 'CategoriesController@index')->name('category.index');
@@ -29,7 +29,8 @@ Route::prefix('admin')->group(function () {
 
    //Routes for Posts Module
    Route::resource('/post', 'PostsController');
-
+   Route::get('/post/list/trashed', 'PostsController@trashed')->name('post.trashed');
+   Route::post('/post/restore/{id}', 'PostsController@restore')->name('post.restore');
 });
 
 

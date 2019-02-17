@@ -91,6 +91,10 @@
                       <li class="list-group-item">
                         <a href="{{ url('admin/post') }}">All Posts</a>
                       </li>
+
+                      <li class="list-group-item">
+                        <a href="{{ route('post.trashed') }}">trashed Posts</a>
+                      </li>
                   </ul>
                </div>
                <div class="col-md-9">@yield('contenu')</div>
@@ -104,13 +108,19 @@
    
     @if(session('success'))
     <script>
-      toastr.info('{{ session('success') }}')
+      toastr.success('{{ session('success') }}')
     </script>
     @endif
 
     @if(session('warning'))
     <script>
-      toastr.warning('{{ session('success') }}')
+      toastr.warning('{{ session('warning') }}')
+    </script>
+    @endif
+
+    @if(session('info'))
+    <script>
+      toastr.info('{{ session('info') }}')
     </script>
     @endif
 </body>
