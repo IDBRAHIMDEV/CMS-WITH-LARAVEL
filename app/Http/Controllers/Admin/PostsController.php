@@ -3,11 +3,15 @@
 namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Session;
+use Auth;
 use App\Post, App\Category;
 use Illuminate\Http\Request;
 
 class PostsController extends Controller
 {
+    public function __construct() {
+        $this->middleware('admin')->only('destroy');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -46,13 +50,14 @@ class PostsController extends Controller
         ]);
 
       
-        // $post = new Post;
-        // $post->title = $request->title;
-        // $post->content = $request->content;
-        // $post->category_id = $request->category_id;
-        // $post->save();
+        $post = new Post;
+        $post->title = $request->title;
+        $post->user_id = Auth::user()->id;
+        $post->content = $request->content;
+        $post->category_id = $request->category_id;
+        $post->save();
 
-        Post::create($request->except('_token'));
+        //Post::create($request->except('_token'));
         
         Session::flash('success', 'This posts is created successfully ');
         return redirect('admin/post');

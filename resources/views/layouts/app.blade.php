@@ -77,8 +77,20 @@
        <div class="container">
            <div class="row mt-4">
                <div class="col-md-3">
+                @if(Auth::check())
                   <ul class="list-group">
                       <li class="list-group-item active">Menu</li>
+                      @if(Auth::user()->admin)
+                      <li class="list-group-item">
+                        <a href="{{ route('user.create') }}">New user</a>
+                      </li>
+                      <li class="list-group-item">
+                        <a href="{{ route('user.index') }}">All users</a>
+                      </li>
+                      <li class="list-group-item">
+                        <a href="{{ route('post.trashed') }}">trashed Posts</a>
+                      </li>
+                      @endif
                       <li class="list-group-item">
                         <a href="{{ route('category.create') }}">New category</a>
                       </li>
@@ -92,10 +104,9 @@
                         <a href="{{ url('admin/post') }}">All Posts</a>
                       </li>
 
-                      <li class="list-group-item">
-                        <a href="{{ route('post.trashed') }}">trashed Posts</a>
-                      </li>
+                     
                   </ul>
+                  @endif
                </div>
                <div class="col-md-9">@yield('contenu')</div>
            </div>

@@ -10,7 +10,11 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::prefix('admin')->namespace('Admin')->group(function () {
+Route::get('/', function() {
+    return view('welcome'); 
+});
+
+Route::middleware('auth')->prefix('admin')->namespace('Admin')->group(function () {
     
     //List of routes for category module
     Route::get('/category', 'CategoriesController@index')->name('category.index');
@@ -23,14 +27,25 @@ Route::prefix('admin')->namespace('Admin')->group(function () {
 
    Route::put('/category/{id}', 'CategoriesController@update')->name('category.update');
 
-   Route::delete('/category/{id}', 'CategoriesController@delete')->name('category.delete');
+   Route::delete('/category/{id}', 'CategoriesController@delete')
+       ->middleware('admin')
+       ->name('category.delete');
    // fin route category
 
 
    //Routes for Posts Module
    Route::resource('/post', 'PostsController');
-   Route::get('/post/list/trashed', 'PostsController@trashed')->name('post.trashed');
-   Route::post('/post/restore/{id}', 'PostsController@restore')->name('post.restore');
+
+   Route::get('/post/list/trashed', 'PostsController@trashed')
+         ->middleware('admin')
+         ->name('post.trashed');
+
+   Route::post('/post/restore/{id}', 'PostsController@restore')
+         ->middleware('admin')
+         ->name('post.restore');
+
+   //Routes for User
+   Route::resource('user', 'UsersController');
 });
 
 
