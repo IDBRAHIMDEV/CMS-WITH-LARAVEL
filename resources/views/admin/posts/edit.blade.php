@@ -26,6 +26,23 @@
             </select>
          </div>
 
+         @foreach($tags as $tag)
+         <div class="form-check">
+           <label class="form-check-label">
+             <input type="checkbox" class="form-check-input" name="tags[]" value="{{ $tag->id }}" 
+                
+                @foreach($post->tags as $myTag)
+                   @if($myTag->id == $tag->id)
+                     checked 
+                   @endif
+                @endforeach
+             
+             >
+             {{ $tag->name }}
+           </label>
+         </div>
+        @endforeach
+
         <div class="form-group">
             <label for="title">Title</label>
             <input value="{{ $post->title }}" id="title" name="title" type="text" class="form-control input-lg" placeholder="Create new category">

@@ -46,6 +46,10 @@ Route::middleware('auth')->prefix('admin')->namespace('Admin')->group(function (
 
    //Routes for User
    Route::resource('user', 'UsersController');
+
+   Route::put('user/change/permission/{id}', 'UsersController@changePermission')
+        ->name('user.change.permission')
+        ->middleware('admin');
 });
 
 

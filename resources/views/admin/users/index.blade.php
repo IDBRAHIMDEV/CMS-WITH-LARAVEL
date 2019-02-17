@@ -25,11 +25,15 @@
                  @endif
               </td>
               <td>
+                 <form method="post" action="{{ route('user.change.permission', ['id' => $user->id]) }}">
+                 @csrf 
+                 @method('PUT')
                  @if($user->admin) 
-                   <a href="" class="btn btn-success btn-sm">Demote permission</a>  
+                   <button class="btn btn-success btn-sm">Demote permission</button>  
                  @else 
-                    <a href="" class="btn btn-warning btn-sm">Promote Permission</a> 
+                    <button class="btn btn-warning btn-sm">Promote Permission</button> 
                  @endif
+                 </form>
              </td>
              
           </tr>

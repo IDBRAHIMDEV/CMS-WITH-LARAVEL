@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Session;
 use Auth;
-use App\Post, App\Category;
+use App\Post, App\Category, App\Tag;
 use Illuminate\Http\Request;
 
 class PostsController extends Controller
@@ -19,7 +19,7 @@ class PostsController extends Controller
      */
     public function index()
     {
-        $posts = Post::all();
+        $posts = Auth::user()->admin ? Post::all() : Auth::user()->posts;
         return view('admin.posts.index', ['posts' => $posts]);
     }
 
@@ -31,7 +31,11 @@ class PostsController extends Controller
     public function create()
     {
         $categories = Category::all();
-       return view('admin.posts.create', ['categories' => $categories]);
+        $tags = Tag::all(); 
+       return view('admin.posts.create', [
+                    'categories' => $categories,
+                    'tags' => $tags
+                ]);
     }
 
     /**
@@ -42,7 +46,6 @@ class PostsController extends Controller
      */
     public function store(Request $request)
     {
-          
         $request->validate([
             'title' => 'required|min:3',
             'content' => 'required',
@@ -56,6 +59,8 @@ class PostsController extends Controller
         $post->content = $request->content;
         $post->category_id = $request->category_id;
         $post->save();
+
+        $post->tags()->attach($request->tags);
 
         //Post::create($request->except('_token'));
         
@@ -83,9 +88,11 @@ class PostsController extends Controller
     public function edit(Post $post)
     {   
         $categories = Category::all();
+        $tags = Tag::all();
         return view('admin.posts.edit', [
                     'categories' => $categories, 
-                    'post' => $post
+                    'post' => $post,
+                    'tags' =>  $tags
                   ]);
     }
 
@@ -102,6 +109,8 @@ class PostsController extends Controller
         $post->content = $request->content;
         $post->category_id = $request->category_id;
         $post->save();
+
+        $post->tags()->sync($request->tags);
         
         Session::flash('success', 'Post Updated successfully');
         return redirect()->route('post.index');

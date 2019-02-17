@@ -25,6 +25,15 @@
               @endforeach
             </select>
          </div>
+         
+         @foreach($tags as $tag)
+         <div class="form-check">
+           <label class="form-check-label">
+             <input type="checkbox" class="form-check-input" name="tags[]" value="{{ $tag->id }}" >
+             {{ $tag->name }}
+           </label>
+         </div>
+        @endforeach
 
         <div class="form-group">
             <label for="title">Title</label>

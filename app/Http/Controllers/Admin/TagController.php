@@ -1,25 +1,22 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
 
-use App\User;
-use Session;
-use Illuminate\Http\Request;
+namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 
-class UsersController extends Controller
+use App\Tag;
+use Illuminate\Http\Request;
+
+class TagController extends Controller
 {
-    public function __construct() {
-        $this->middleware('admin')->only(['create', 'store', 'changePermission']);
-    }
-     /**
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        return view('admin.users.index')->with('users', User::all());
+        //
     }
 
     /**
@@ -29,7 +26,7 @@ class UsersController extends Controller
      */
     public function create()
     {
-        return view('admin.users.create');
+        //
     }
 
     /**
@@ -40,23 +37,16 @@ class UsersController extends Controller
      */
     public function store(Request $request)
     {
-        User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => bcrypt($request->password)
-        ]);
-
-        Session::flash('success', 'User created');
-        return redirect()->route('user.index');
+        //
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\User  $user
+     * @param  \App\Tag  $tag
      * @return \Illuminate\Http\Response
      */
-    public function show(User $user)
+    public function show(Tag $tag)
     {
         //
     }
@@ -64,10 +54,10 @@ class UsersController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\User  $user
+     * @param  \App\Tag  $tag
      * @return \Illuminate\Http\Response
      */
-    public function edit(User $user)
+    public function edit(Tag $tag)
     {
         //
     }
@@ -76,10 +66,10 @@ class UsersController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\User  $user
+     * @param  \App\Tag  $tag
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user)
+    public function update(Request $request, Tag $tag)
     {
         //
     }
@@ -87,21 +77,11 @@ class UsersController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\User  $user
+     * @param  \App\Tag  $tag
      * @return \Illuminate\Http\Response
      */
-    public function destroy(User $user)
+    public function destroy(Tag $tag)
     {
         //
-    }
-
-    public function changePermission($id) {
-        $user = User::find($id);
-       
-          $user->admin = !$user->admin;
-          $user->save();
-
-          Session::flash('success', 'Permission created');
-          return redirect()->route('user.index');
     }
 }
