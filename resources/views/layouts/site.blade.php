@@ -19,6 +19,8 @@
   
    
 </div>
+
+@yield('javascripts')
     
 </body>
 </html>

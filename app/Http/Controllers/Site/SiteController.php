@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Site;
-use App\Post;
+use App\Post, App\Contact;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -9,7 +9,7 @@ class SiteController extends Controller
 {
     public function index() {
         
-       return view('site.index');
+       return redirect()->route('site.blog');
     }
 
 
@@ -21,11 +21,24 @@ class SiteController extends Controller
     }
 
     public function contact() {
-
+        return view('site.contact');
     }
 
     public function show() 
     {
 
+    }
+
+    public function storeContact(Request $request) {
+        $contact = new Contact;
+
+        $contact->name = $request->name;
+        $contact->email = $request->email;
+        $contact->object = $request->object;
+        $contact->message = $request->message;
+
+        $contact->save();
+
+        return "ok";
     }
 }

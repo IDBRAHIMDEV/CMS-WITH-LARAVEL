@@ -17,6 +17,7 @@ Route::namespace('site')->group(function(){
     Route::get('/blog', 'SiteController@blog')->name('site.blog');
     Route::get('/contact', 'SiteController@contact')->name('site.contact');
     Route::get('/{id}', 'SiteController@show')->name('site.show');
+    Route::post('/contact', 'SiteController@storeContact')->name('contact.store');
 });
 
 
