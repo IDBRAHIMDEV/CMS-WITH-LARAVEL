@@ -10,9 +10,16 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/', function() {
-    return view('welcome'); 
+
+
+Route::namespace('site')->group(function(){
+    Route::get('/', 'SiteController@index')->name('site.index');
+    Route::get('/blog', 'SiteController@blog')->name('site.blog');
+    Route::get('/contact', 'SiteController@contact')->name('site.contact');
+    Route::get('/{id}', 'SiteController@show')->name('site.show');
 });
+
+
 
 Route::middleware('auth')->prefix('admin')->namespace('Admin')->group(function () {
     
